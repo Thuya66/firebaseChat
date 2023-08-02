@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "473065286754",
+    "project_id": "fir-chat-5f2f1",
+    "storage_bucket": "fir-chat-5f2f1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:473065286754:android:d77825fd280d16730bb53b",
+        "android_client_info": {
+          "package_name": "thuya.firebasechat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "473065286754-2a1o91vpjrv0ak0q58b1i022v2r6fsnr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "thuya.firebasechat",
+            "certificate_hash": "d56c456520aa48b41d07551cdc3ca5f91833d98b"
+          }
+        },
+        {
+          "client_id": "473065286754-ci7b7ggctmhjcgb98ircvinc3p220iim.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBN1amxLTZ3jfLavNXH1VNXNGXRn2GKPTo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "473065286754-ci7b7ggctmhjcgb98ircvinc3p220iim.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
