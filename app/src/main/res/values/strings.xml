@@ -5,7 +5,7 @@
     <string name="enter_password">Enter Password</string>
     <string name="enter_confirm_password">Enter Confirm Password</string>
     <string name="label_signup">SIGN UP</string>
-    <string name="label_signin">SIGN IN</string>
+    <string name="label_signin">LOGIN</string>
     <string name="btn_login">LOGIN</string>
     <string name="btn_signup">SIGN UP</string>
 </resources>

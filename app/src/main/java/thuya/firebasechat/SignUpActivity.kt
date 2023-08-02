@@ -25,6 +25,7 @@ class SignUpActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
+        // Sign Up Button Click
         binding.btnSignUp.setOnClickListener(){
             val userName = binding.etName.text.toString()
             val email = binding.etEmail.text.toString()
@@ -33,52 +34,48 @@ class SignUpActivity : AppCompatActivity() {
 
             if (TextUtils.isEmpty(userName)){
                 Toast.makeText(applicationContext, "Username is required!", Toast.LENGTH_SHORT).show()
-            }
-
-            if (TextUtils.isEmpty(email)){
+            }else if (TextUtils.isEmpty(email)){
                 Toast.makeText(applicationContext, "Email is required!", Toast.LENGTH_SHORT).show()
-            }
-
-            if (TextUtils.isEmpty(password)){
+            }else if (TextUtils.isEmpty(password)){
                 Toast.makeText(applicationContext, "Password is required!", Toast.LENGTH_SHORT).show()
-            }
-
-            if (TextUtils.isEmpty(confirmPassword)){
+            }else if (TextUtils.isEmpty(confirmPassword)){
                 Toast.makeText(applicationContext, "Confirm Password is required!", Toast.LENGTH_SHORT).show()
-            }
-
-            if (password != confirmPassword){
+            }else if (password != confirmPassword){
                 Toast.makeText(applicationContext, "Password doesn't Match!", Toast.LENGTH_SHORT).show()
+            }else{
+                // Register User
+                registerUser(userName,email,password)
             }
+        }
 
-            registerUser(userName,email,password)
+        binding.btnLogin.setOnClickListener(){
+            val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
+            startActivity(intent)
         }
     }
 
     private fun registerUser(userName:String,email:String,password:String){
         auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this){
-                if (it.isSuccessful){
-                    val user:FirebaseUser? = auth.currentUser
-                    val userId:String = user!!.uid
+            .addOnSuccessListener(this){
+                val user:FirebaseUser? = auth.currentUser
+                val userId:String = user!!.uid
 
-                    databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId)
+                databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId)
 
-                    val hashMap: HashMap<String,String> = HashMap()
-                    hashMap.put("userId", userId)
-                    hashMap.put("userName", userName)
-                    hashMap.put("profileImage","")
+                val hashMap: HashMap<String,String> = HashMap()
+                hashMap["userId"] = userId
+                hashMap["userName"] = userName
+                hashMap["profileImage"] = ""
+                databaseReference.setValue(hashMap)
 
-                    databaseReference.setValue(hashMap).addOnCompleteListener(this){
-                        if (it.isSuccessful){
-                            val intent = Intent(this@SignUpActivity,HomeActivity::class.java)
-                            startActivity(intent)
-                        }else{
-                            Toast.makeText(applicationContext, "Registration Fail", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                // Show Registration Success
+                Toast.makeText(applicationContext, "Register Success!", Toast.LENGTH_SHORT).show()
 
-                }
+                // Move to Main Activity
+                val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
+                startActivity(intent)
+            }.addOnFailureListener{
+                Toast.makeText(applicationContext, "${it.message.toString()}", Toast.LENGTH_SHORT).show()
             }
     }
 }
