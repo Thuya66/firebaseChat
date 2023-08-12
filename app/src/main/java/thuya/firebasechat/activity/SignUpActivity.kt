@@ -1,4 +1,4 @@
-package thuya.firebasechat
+package thuya.firebasechat.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,8 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.database.ktx.database
 import thuya.firebasechat.databinding.ActivitySignUpBinding
+import thuya.firebasechat.model.User
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -24,6 +26,7 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(view)
 
         auth = FirebaseAuth.getInstance()
+        databaseReference = Firebase.database.reference
 
         // Sign Up Button Click
         binding.btnSignUp.setOnClickListener(){
@@ -51,22 +54,19 @@ class SignUpActivity : AppCompatActivity() {
         binding.btnLogin.setOnClickListener(){
             val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 
     private fun registerUser(userName:String,email:String,password:String){
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener(this){
-                val user:FirebaseUser? = auth.currentUser
-                val userId:String = user!!.uid
+                val f_user:FirebaseUser? = auth.currentUser
+                val userId:String = f_user!!.uid
 
-                databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId)
+                val user = User(userId,userName,"")
 
-                val hashMap: HashMap<String,String> = HashMap()
-                hashMap["userId"] = userId
-                hashMap["userName"] = userName
-                hashMap["profileImage"] = ""
-                databaseReference.setValue(hashMap)
+                databaseReference.child("users").child(userId).setValue(user)
 
                 // Show Registration Success
                 Toast.makeText(applicationContext, "Register Success!", Toast.LENGTH_SHORT).show()
@@ -74,6 +74,7 @@ class SignUpActivity : AppCompatActivity() {
                 // Move to Main Activity
                 val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
                 startActivity(intent)
+                finish()
             }.addOnFailureListener{
                 Toast.makeText(applicationContext, "${it.message.toString()}", Toast.LENGTH_SHORT).show()
             }

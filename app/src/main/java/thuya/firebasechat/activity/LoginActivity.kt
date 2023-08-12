@@ -1,4 +1,4 @@
-package thuya.firebasechat
+package thuya.firebasechat.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,13 +6,13 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
+import com.google.firebase.auth.FirebaseUser
 import thuya.firebasechat.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-    private lateinit var databaseReference: DatabaseReference
+    private lateinit var firebaseUser : FirebaseUser
     private lateinit var binding : ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,6 +22,13 @@ class LoginActivity : AppCompatActivity() {
         setContentView(view)
 
         auth = FirebaseAuth.getInstance()
+        firebaseUser = auth.currentUser!!
+
+        // check if user login then navigate to user screen
+        if(firebaseUser != null){
+            val intent = Intent(this@LoginActivity, UsersActivity::class.java)
+            startActivity(intent)
+        }
 
         // Signin Button Click
         binding.btnSignin.setOnClickListener(){
@@ -39,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
 
         // Sign Up Button Click
         binding.btnSignUp.setOnClickListener(){
-            val intent = Intent(this@LoginActivity,SignUpActivity::class.java)
+            val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
             startActivity(intent)
         }
     }
@@ -48,8 +55,9 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (it.isSuccessful){
-                    val intent = Intent(this@LoginActivity,HomeActivity::class.java)
+                    val intent = Intent(this@LoginActivity, UsersActivity::class.java)
                     startActivity(intent)
+                    finish()
                 }else{
                     Toast.makeText(applicationContext, "Email or Password invalid!", Toast.LENGTH_SHORT).show()
                 }

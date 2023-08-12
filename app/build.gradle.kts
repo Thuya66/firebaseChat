@@ -79,4 +79,16 @@ dependencies {
     implementation("com.google.firebase:firebase-database:20.2.2")
     implementation("com.google.firebase:firebase-core:21.1.1")
     implementation("com.google.firebase:firebase-auth:22.1.0")
+    implementation("com.google.firebase:firebase-database-ktx")
+    implementation("com.google.firebase:firebase-storage:20.2.1")
+
+    // Material Design library
+    implementation("com.google.android.material:material:1.9.0")
+
+    //Circle Image View Library
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+
+    //Glide Library
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    implementation("com.github.bumptech.glide:compiler:4.11.0")
 }

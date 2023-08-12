@@ -8,4 +8,9 @@
     <string name="label_signin">LOGIN</string>
     <string name="btn_login">LOGIN</string>
     <string name="btn_signup">SIGN UP</string>
+    <string name="label_message">Message</string>
+    <string name="label_profile">Profile</string>
+    <string name="label_username">User Name</string>
+    <string name="btn_logout">Log Out</string>
+    <string name="btn_save">Save</string>
 </resources>
